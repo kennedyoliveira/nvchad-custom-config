@@ -13,6 +13,7 @@ M.treesitter = {
     "markdown",
     "markdown_inline",
     "rust",
+    "yaml",
   },
   indent = {
     enable = true,
@@ -49,6 +50,9 @@ M.mason = {
 
     -- generic stuff
     "sonarlint-language-server",
+
+    -- markdown
+    "marksman",
   },
 }
 

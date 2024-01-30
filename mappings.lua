@@ -1,6 +1,16 @@
 ---@type MappingsTable
 local M = {}
 
+M.disabled = {
+  n = {
+    -- Disable to allow the plugin nvim-tmux-navigator to bind (see custom/plugins.lua)
+    ["<C-h>"] = "",
+    ["<C-l>"] = "",
+    ["<C-j>"] = "",
+    ["<C-k>"] = "",
+  },
+}
+
 M.general = {
   n = {
     [";"] = { ":", "enter command mode", opts = { nowait = true } },
@@ -23,12 +33,12 @@ M.lsp = {
   },
 }
 
-M.rust_lsp = {
-  n = {
-    ["ca"] = { "<cmd> RustLsp codeAction <CR>" },
-    ["K"] = { "<cmd> RustLsp hover actions <CR>" },
-  },
-}
+-- M.rust_lsp = {
+--   n = {
+--     ["ca"] = { "<cmd> RustLsp codeAction <CR>" },
+--     ["K"] = { "<cmd> RustLsp hover actions <CR>" },
+--   },
+-- }
 -- more keybinds!
 
 return M
