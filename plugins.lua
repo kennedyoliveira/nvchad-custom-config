@@ -212,6 +212,111 @@ local plugins = {
       },
     },
   },
+
+  -- better messages and floating windows for cmd
+  -- add virtual text as well
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      lsp = {
+        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+        },
+      },
+      -- you can enable a preset for easier configuration
+      presets = {
+        bottom_search = true,         -- use a classic bottom cmdline for search
+        command_palette = true,       -- position the cmdline and popupmenu together
+        long_message_to_split = true, -- long messages will be sent to a split
+        inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = false,       -- add a border to hover docs and signature help
+      },
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      "rcarriga/nvim-notify",
+    },
+  },
+
+  {
+    "SmiteshP/nvim-navic",
+  },
+
+  -- Add a status bar line on top of the buffer with the file icon + name
+  -- helpful for splits
+  {
+    "b0o/incline.nvim",
+    config = function()
+      local helpers = require "incline.helpers"
+      local devicons = require "nvim-web-devicons"
+      local navic = require "nvim-navic"
+
+      require("incline").setup {
+        window = {
+          padding = 0,
+          margin = { horizontal = 0 },
+        },
+        render = function(props)
+          local filename = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(props.buf), ":t")
+          if filename == "" then
+            filename = "[No Name]"
+          end
+          local ft_icon, ft_color = devicons.get_icon_color(filename)
+          local modified = vim.bo[props.buf].modified
+          local res = {
+            ft_icon and { " ", ft_icon, " ", guibg = ft_color, guifg = helpers.contrast_color(ft_color) } or "",
+            " ",
+            { filename, gui = modified and "bold,italic" or "bold" },
+            guibg = "#44406e",
+          }
+          if props.focused then
+            for _, item in ipairs(navic.get_data(props.buf) or {}) do
+              table.insert(res, {
+                { " > ",     group = "NavicSeparator" },
+                { item.icon, group = "NavicIcons" .. item.type },
+                { item.name, group = "NavicText" },
+              })
+            end
+          end
+          table.insert(res, " ")
+          return res
+        end,
+      }
+    end,
+    -- Optional: Lazy load Incline
+    event = "VeryLazy",
+  },
+
+  -- File Bookmark navigation
+  {
+    "otavioschwanck/arrow.nvim",
+    opts = {
+      show_icons = true,
+    },
+    lazy = false,
+    cmd = {
+      "Arrow",
+    },
+    keys = {
+      {
+        "<F3>",
+        mode = { "n", "x" },
+        function()
+          require("arrow.ui").openMenu()
+        end,
+      },
+      desc = "Arrow Show Menu",
+    },
+  },
+
   -- end
 }
 
