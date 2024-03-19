@@ -193,6 +193,25 @@ local plugins = {
     },
     lazy = false,
   },
+
+  -- Allow seeing the undo history as a tree and changing the state to any previous state
+  {
+    "mbbill/undotree",
+    opts = {},
+    cmd = {
+      "UndotreeToggle",
+    },
+    keys = {
+      {
+        "<leader>u",
+        mode = { "n", "x" },
+        function()
+          vim.cmd.UndotreeToggle()
+        end,
+        desc = "Toggle Undotree",
+      },
+    },
+  },
   -- end
 }
 
