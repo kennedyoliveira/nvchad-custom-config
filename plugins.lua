@@ -148,8 +148,6 @@ local plugins = {
     },
   },
 
-  -- Allow jumping to a search term, can be used by the hotkey s for regular mode or S for treesitter
-  -- and also integrate with the / or ? search
   {
     "folke/flash.nvim",
     event = "VeryLazy",
@@ -163,6 +161,37 @@ local plugins = {
       { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
       { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     },
+  },
+
+  -- add IDE like breadcumps
+  -- Required neovim 0.10.0-dev
+  -- {
+  --   {
+  --     "Bekaboo/dropbar.nvim",
+  --     -- optional, but required for fuzzy finder support
+  --     dependencies = {
+  --       "nvim-telescope/telescope-fzf-native.nvim",
+  --     },
+  --     lazy = false,
+  --   },
+  -- },
+
+  -- Highlight the line and word in the cursor
+  {
+    "yamatsum/nvim-cursorline",
+    opts = {
+      cursorline = {
+        enable = true,
+        timeout = 1000,
+        number = false,
+      },
+      cursorword = {
+        enable = true,
+        min_length = 3,
+        hl = { underline = true },
+      },
+    },
+    lazy = false,
   },
   -- end
 }
