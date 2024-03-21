@@ -105,7 +105,6 @@ local plugins = {
 
   -- https://github.com/folke/trouble.nvim?tab=readme-ov-file
   -- TODO add integration to telescope
-  -- TODO add key mapping for it
   {
     "folke/trouble.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
@@ -120,8 +119,59 @@ local plugins = {
       -- or leave it empty to use the default settings
       -- refer to the configuration section below
     },
+    keys = {
+      {
+        "<leader>tt",
+        mode = { "n" },
+        function()
+          require("trouble").toggle()
+        end,
+        desc = "Trouble toggle quick list",
+      },
+      {
+        "<leader>tw",
+        mode = { "n" },
+        function()
+          require("trouble").toggle "workspace_diagnostics"
+        end,
+        desc = "Trouble toggle quick list for workspace",
+      },
+      {
+        "<leader>td",
+        mode = { "n" },
+        function()
+          require("trouble").toggle "document_diagnostics"
+        end,
+        desc = "Trouble toggle quick list for document",
+      },
+      {
+        "<leader>tq",
+        mode = { "n" },
+        function()
+          require("trouble").toggle "quickfix"
+        end,
+        desc = "Trouble toggle quickfix",
+      },
+      {
+        "<leader>tl",
+        mode = { "n" },
+        function()
+          require("trouble").toggle "loclist"
+        end,
+        desc = "Trouble toggle loc list",
+      },
+      {
+        "<leader>gR",
+        mode = { "n" },
+        function()
+          require("trouble").toggle "lsp_references"
+        end,
+        desc = "Trouble toggle LSP references",
+      },
+    },
   },
 
+  -- Support for YAML files with syntax highlight and snippets
   {
     "cuducos/yaml.nvim",
     ft = { "yaml" }, -- optional
@@ -148,6 +198,7 @@ local plugins = {
     },
   },
 
+  -- Allow quickly jumping to any part of the screen with a few keystrokes
   {
     "folke/flash.nvim",
     event = "VeryLazy",
@@ -330,7 +381,29 @@ local plugins = {
     dependencies = { "nvim-telescope/telescope.nvim" },
   },
 
- -- end
+  -- Add markdown preview
+  -- Install dependencies without yarn or npm
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = {
+      "MarkdownPreviewToggle",
+      "MarkdownPreview",
+      "MarkdownPreviewStop",
+    },
+    -- file type
+    ft = { "markdown" },
+    build = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+
+    -- Alternative way of installing using yarn
+    -- build = "cd app && yarn install",
+    -- init = function()
+    --   vim.g.mkdp_filetypes = { "markdown" }
+    -- end,
+  },
+
+  -- end of the tables
 }
 
 return plugins
