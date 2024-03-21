@@ -67,6 +67,40 @@ local plugins = {
     "mrcjkb/rustaceanvim",
     version = "^4", -- Recommended
     ft = { "rust" },
+    keys = {
+      {
+        "<leader>ca",
+        mode = { "n" },
+        function()
+          vim.cmd.RustLsp "codeAction"
+        end,
+        desc = "Rust Code Action",
+      },
+      {
+        "K",
+        mode = { "n" },
+        function()
+          vim.cmd.RustLsp("hover", "actions")
+        end,
+        desc = "Rust Hover Action",
+      },
+      {
+        "<leader>oc",
+        mode = { "n" },
+        function()
+          vim.cmd.RustLsp "openCargo"
+        end,
+        desc = "Rust Open Cargo",
+      },
+      {
+        "J",
+        mode = { "n" },
+        function()
+          vim.cmd.RustLsp "joinLines"
+        end,
+        desc = "Rust Join Lines",
+      },
+    },
   },
 
   -- config to use with tmux to allow jumping between panes of nvim and tmux
