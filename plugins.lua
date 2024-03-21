@@ -330,7 +330,29 @@ local plugins = {
     dependencies = { "nvim-telescope/telescope.nvim" },
   },
 
- -- end
+  -- Add markdown preview
+  -- Install dependencies without yarn or npm
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = {
+      "MarkdownPreviewToggle",
+      "MarkdownPreview",
+      "MarkdownPreviewStop",
+    },
+    -- file type
+    ft = { "markdown" },
+    build = function()
+      vim.fn["mkdp#util#install"]()
+    end,
+
+    -- Alternative way of installing using yarn
+    -- build = "cd app && yarn install",
+    -- init = function()
+    --   vim.g.mkdp_filetypes = { "markdown" }
+    -- end,
+  },
+
+  -- end of the tables
 }
 
 return plugins
