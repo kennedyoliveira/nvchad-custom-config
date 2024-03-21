@@ -246,6 +246,7 @@ local plugins = {
     },
   },
 
+  -- A simple statusline/winbar component that uses LSP to show your current code context
   {
     "SmiteshP/nvim-navic",
   },
@@ -317,7 +318,19 @@ local plugins = {
     },
   },
 
-  -- end
+  -- Add a telescope extension to go to a specific tab
+  {
+    "LukasPietzschmann/telescope-tabs",
+    config = function()
+      require("telescope").load_extension "telescope-tabs"
+      require("telescope-tabs").setup {
+        -- Your custom config :^)
+      }
+    end,
+    dependencies = { "nvim-telescope/telescope.nvim" },
+  },
+
+ -- end
 }
 
 return plugins

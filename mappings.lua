@@ -8,6 +8,7 @@ M.disabled = {
     ["<C-l>"] = "",
     ["<C-j>"] = "",
     ["<C-k>"] = "",
+    ["<leader>gt"] = "", -- disable the default mapping for git status in telescope
   },
 }
 
@@ -23,6 +24,7 @@ M.general = {
 M.telescope = {
   n = {
     ["<C-T>"] = { "<cmd> Telescope <CR>", "Open Telescope", opts = {} },
+    ["<leader>gt"] = { "<cmd> Telescope telescope-tabs list_tabs <CR>", "Go to tab", opts = {} },
   },
 }
 
