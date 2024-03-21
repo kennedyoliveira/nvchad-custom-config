@@ -246,6 +246,7 @@ local plugins = {
     },
   },
 
+  -- A simple statusline/winbar component that uses LSP to show your current code context
   {
     "SmiteshP/nvim-navic",
   },
