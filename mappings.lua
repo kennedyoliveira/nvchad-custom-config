@@ -31,7 +31,7 @@ M.telescope = {
 -- LSP mappings
 M.lsp = {
   n = {
-    ["<F12>"] = { "<cmd> Telescope lsp_document_symbols <CR>", "Show LSP Symbols", opts = {} },
+    ["<F12>"] = { "<cmd> Telescope lsp_document_symbols <CR>", "LSP Show Symbols", opts = {} },
   },
 }
 
