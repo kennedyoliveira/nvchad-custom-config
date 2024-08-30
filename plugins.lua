@@ -38,6 +38,39 @@ local plugins = {
     opts = overrides.nvimtree,
   },
 
+  -- better messages and floating windows for cmd
+  -- add virtual text as well
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      lsp = {
+        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
+        override = {
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+          ["vim.lsp.util.stylize_markdown"] = true,
+          ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+        },
+      },
+      -- you can enable a preset for easier configuration
+      presets = {
+        bottom_search = true,         -- use a classic bottom cmdline for search
+        command_palette = true,       -- position the cmdline and popupmenu together
+        long_message_to_split = true, -- long messages will be sent to a split
+        inc_rename = false,           -- enables an input dialog for inc-rename.nvim
+        lsp_doc_border = false,       -- add a border to hover docs and signature help
+      },
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      "MunifTanjim/nui.nvim",
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      "rcarriga/nvim-notify",
+    },
+  },
+
   -- Install a plugin
   -- press jj or jk fast to escape insert mode
   {
@@ -203,7 +236,13 @@ local plugins = {
     "folke/flash.nvim",
     event = "VeryLazy",
     ---@type Flash.Config
-    opts = {},
+    opts = {
+      modes = {
+        search = {
+          enabled = true,
+        },
+      },
+    },
     -- stylua: ignore
     keys = {
       { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
@@ -261,39 +300,6 @@ local plugins = {
         end,
         desc = "Toggle Undotree",
       },
-    },
-  },
-
-  -- better messages and floating windows for cmd
-  -- add virtual text as well
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = {
-      lsp = {
-        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-        override = {
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
-        },
-      },
-      -- you can enable a preset for easier configuration
-      presets = {
-        bottom_search = true,         -- use a classic bottom cmdline for search
-        command_palette = true,       -- position the cmdline and popupmenu together
-        long_message_to_split = true, -- long messages will be sent to a split
-        inc_rename = false,           -- enables an input dialog for inc-rename.nvim
-        lsp_doc_border = false,       -- add a border to hover docs and signature help
-      },
-    },
-    dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-      "MunifTanjim/nui.nvim",
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
     },
   },
 
@@ -383,26 +389,76 @@ local plugins = {
 
   -- Add markdown preview
   -- Install dependencies without yarn or npm
-  {
-    "iamcco/markdown-preview.nvim",
-    cmd = {
-      "MarkdownPreviewToggle",
-      "MarkdownPreview",
-      "MarkdownPreviewStop",
-    },
-    -- file type
-    ft = { "markdown" },
-    build = function()
-      vim.fn["mkdp#util#install"]()
-    end,
+  -- {
+  --   "iamcco/markdown-preview.nvim",
+  --   cmd = {
+  --     "MarkdownPreviewToggle",
+  --     "MarkdownPreview",
+  --     "MarkdownPreviewStop",
+  --   },
+  --   -- file type
+  --   ft = { "markdown" },
+  --   build = function()
+  --     vim.fn["mkdp#util#install"]()
+  --   end,
+  --
+  --   -- Alternative way of installing using yarn
+  --   -- build = "cd app && yarn install",
+  --   -- init = function()
+  --   --   vim.g.mkdp_filetypes = { "markdown" }
+  --   -- end,
+  -- },
+  --
 
-    -- Alternative way of installing using yarn
-    -- build = "cd app && yarn install",
-    -- init = function()
-    --   vim.g.mkdp_filetypes = { "markdown" }
-    -- end,
+  -- https://github.com/OXY2DEV/markview.nvim
+  {
+    "OXY2DEV/markview.nvim",
+    lazy = false, -- Recommended
+    -- ft = "markdown" -- If you decide to lazy-load anyway
+
+    dependencies = {
+      -- You will not need this if you installed the
+      -- parsers manually
+      -- Or if the parsers are in your $RUNTIMEPATH
+      "nvim-treesitter/nvim-treesitter",
+
+      "nvim-tree/nvim-web-devicons",
+    },
   },
 
+  {
+    "gennaro-tedesco/nvim-jqx",
+    ft = { "json", "yaml" },
+  },
+
+  -- https://github.com/rest-nvim/rest.nvim
+  {
+    "rest-nvim/rest.nvim",
+    lazy = false,
+  },
+
+  -- Dependency for other plugins to create
+  -- UI blocks, like nvim-navbuddy
+  {
+    "MunifTanjim/nui.nvim",
+  },
+
+  -- https://github.com/SmiteshP/nvim-navbuddy?tab=readme-ov-file
+  -- Symbol navigation, <leader>ls
+  {
+    "neovim/nvim-lspconfig",
+    dependencies = {
+      {
+        "SmiteshP/nvim-navbuddy",
+        dependencies = {
+          "SmiteshP/nvim-navic",
+          "MunifTanjim/nui.nvim",
+        },
+        opts = { lsp = { auto_attach = true } },
+      },
+    },
+    -- your lsp config or other stuff
+  },
   -- end of the tables
 }
 

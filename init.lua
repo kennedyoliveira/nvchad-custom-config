@@ -11,4 +11,3 @@
 -- This is the same as calling :set number relativenumber
 vim.opt.relativenumber = true
 vim.opt.number = true
-
