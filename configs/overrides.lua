@@ -17,6 +17,7 @@ M.treesitter = {
     "json",
     "regex",
     "bash",
+    "http",
   },
   indent = {
     enable = true,

@@ -32,6 +32,7 @@ M.telescope = {
 M.lsp = {
   n = {
     ["<F12>"] = { "<cmd> Telescope lsp_document_symbols <CR>", "LSP Show Symbols", opts = {} },
+    ["<leader>lS"] = { "<cmd> Navbuddy <CR>", "Show symbol navigation (NavBuddy)", opts = {} },
   },
 }
 
